@@ -7,9 +7,9 @@ import { Form, ButtonToolbar, Button, Input, Col, Row, Grid, FlexboxGrid } from 
  
 import Pusher from 'pusher-js';
 
-function Result({wsHost, wsPort, cluster, subscribe, event}) {
+function Result({pusherKey,wsHost, wsPort, cluster, subscribe, event}) {
   const [data, setData] = useState({})
-  let client = new Pusher('app-key', {
+  let client = new Pusher(pusherKey, {
     wsHost: wsHost,
     wsPort: wsPort,
     cluster: cluster,
@@ -43,6 +43,7 @@ function App() {
   const [subscribe, setSubscribe] = useState('test');
   const [event, setEvent] = useState('balance.update');
   const [key, setKey] = useState(0)
+  const [pusherKey, setPusherKey] = useState('app-key')
 
 
   return (
@@ -56,6 +57,10 @@ function App() {
             <div>
               <h3>Config</h3>
             <Form>
+          <Form.Group controlId="pusherKey">
+            <Form.ControlLabel>pusherKey</Form.ControlLabel>
+            <Form.Control name="pusherKey" value={pusherKey} onChange={(e)=>setPusherKey(e)}  />
+          </Form.Group>
           <Form.Group controlId="wsHost">
             <Form.ControlLabel>wsHost</Form.ControlLabel>
             <Form.Control name="wsHost" value={wsHost} onChange={(e)=>setWsHost(e)}  />
@@ -89,7 +94,7 @@ function App() {
           <Col xs={12}>
             <h3>Result</h3> <br />
             {key===0 && <div>Not Connected</div>}
-            {key>0 && <Result wsHost={wsHost} wsPort={wsPort} cluster={cluster} subscribe={subscribe} event={event} />}
+            {key>0 && <Result pusherKey={pusherKey} wsHost={wsHost} wsPort={wsPort} cluster={cluster} subscribe={subscribe} event={event} />}
           </Col>
         </Row>
       </Grid>
