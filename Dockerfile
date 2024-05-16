@@ -7,7 +7,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 COPY . .
-RUN yarn build --production=false
+RUN yarn build
 
 # Stage 2: Production
 FROM nginx:1.19
